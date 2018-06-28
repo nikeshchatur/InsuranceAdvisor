@@ -26,8 +26,10 @@ $(function() {
 		 bot.respondTo(input, function () {
 			// "this" is the XHR object here!
 			var resp  = JSON.parse(this.responseText);
+			
+			//alert(resp);
 			console.log('resp'+resp);
-			alert(resp);
+		//	alert(resp);
 			if(resp == null) return;
 			var latency = Math.floor((Math.random() * (delayEnd - delayStart)) + delayStart);
 		$('.busy').css('display', 'block');
@@ -35,10 +37,13 @@ $(function() {
 		setTimeout( function() {
 			if(typeof resp === 'string') {
 				updateChat(robot, resp);
+				
 			} else {
+				
 				for(var r in resp) {
+					
 					updateChat(robot, resp[r]);
-				}
+				} 
 			}
 			if(--waiting == 0) $('.busy').css('display', 'none');
 		}, latency);
@@ -46,33 +51,19 @@ $(function() {
 			// now do something with resp
 			
 		});
-		//if(reply == null) return;
 		
-	/*	var latency = Math.floor((Math.random() * (delayEnd - delayStart)) + delayStart);
-		$('.busy').css('display', 'block');
-		waiting++;
-		setTimeout( function() {
-			if(typeof reply === 'string') {
-				updateChat(robot, reply);
-			} else {
-				for(var r in reply) {
-					updateChat(robot, reply[r]);
-				}
-			}
-			if(--waiting == 0) $('.busy').css('display', 'none');
-		}, latency); */
+		
+
 	}
 	
 	// add a new line to the chat
 	var updateChat = function(party, text) {
 		
-		if(text == 'hi') text = bot.respondTo(text);
-
 		var style = 'you';
 		if(party != you) {
 			style = 'other';
 		}
-		
+		console.log('text'+text);
 		var line = $('<div><span class="party"></span> <span class="text"></span></div>');
 		line.find('.party').addClass(style).text(party + ':');
 		line.find('.text').text(text);
@@ -80,9 +71,16 @@ $(function() {
 		chat.append(line);
 		
 		chat.stop().animate({ scrollTop: chat.prop("scrollHeight")});
-	
+
+		if(text == 'Please find below policies suit to you.Can you please choose policy code from below policies you want to enroll.') 
+		getPolicy();
+
+		if(text.search('Policy number') ){
+		//alert('found text');
+		}
 	}
 	
+
 	// event binding
 	$('.input').bind('keydown', function(e) {
 		if(e.keyCode == 13) {
@@ -97,7 +95,7 @@ $(function() {
 			// "this" is the XHR object here!
 			var resp  = JSON.parse(this.responseText);
 			console.log('resp'+resp);
-			alert(resp);
+			//alert(resp);
 			if(resp == null) return;
 			var latency = Math.floor((Math.random() * (delayEnd - delayStart)) + delayStart);
 		$('.busy').css('display', 'block');
@@ -118,21 +116,50 @@ $(function() {
 		});
 		//if(reply == null) return;
 		
-	/*	var latency = Math.floor((Math.random() * (delayEnd - delayStart)) + delayStart);
-		$('.busy').css('display', 'block');
-		waiting++;
-		setTimeout( function() {
-			if(typeof reply === 'string') {
-				updateChat(robot, reply);
-			} else {
-				for(var r in reply) {
-					updateChat(robot, reply[r]);
-				}
-			}
-			if(--waiting == 0) $('.busy').css('display', 'none');
-		}, latency); */
+	
 	}
 
+	var getPolicy = function() {
+	
+		bot.getDBPolicy('', function () {
+		   // "this" is the XHR object here!
+		   var resp  = JSON.parse(this.responseText);
+		   console.log('resp'+resp);
+		  // alert(resp);
+		   if(resp == null) return;
+		   var latency = Math.floor((Math.random() * (delayEnd - delayStart)) + delayStart);
+	   $('.busy').css('display', 'block');
+	   waiting++;
+	   setTimeout( function() {
+		   if(typeof resp === 'string') {
+			   updateChat(robot, resp);
+		   } else {
+			   for(var r in resp) {
+				   updateChat(robot, resp[r]);
+			   }
+		   }
+		   if(--waiting == 0) $('.busy').css('display', 'none');
+	   }, latency);
+
+		   // now do something with resp
+		   
+	   });
+	   //if(reply == null) return;
+	   
+   /*	var latency = Math.floor((Math.random() * (delayEnd - delayStart)) + delayStart);
+	   $('.busy').css('display', 'block');
+	   waiting++;
+	   setTimeout( function() {
+		   if(typeof reply === 'string') {
+			   updateChat(robot, reply);
+		   } else {
+			   for(var r in reply) {
+				   updateChat(robot, reply[r]);
+			   }
+		   }
+		   if(--waiting == 0) $('.busy').css('display', 'none');
+	   }, latency); */
+   }
 	
 	// initial chat state
 	
