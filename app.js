@@ -31,9 +31,20 @@ console.log("path"+path.join(__dirname, 'views'));
          
         });
 
+        app.get('/login',function(req,res){
+          console.log('app.js');
+          //var reqData = url.parse(req.url,true,true);
+            res.render(path.join(__dirname, 'views')+'/login');
+          
+           
+          });
+
         app.get('/dashboard',function(req,res){
           var reqData = url.parse(req.url,true,true);
-          console.log('inside dashborad get'+reqData.query.fname);
+          if(reqData.query.uname=='admin' && reqData.query.psw=='admin'){
+
+          
+          console.log('inside dashborad get'+reqData.query.uname);
           customerDB.getCustFeedback(reqData.query.fname,function(err, policylist){
             if(policylist!=null && policylist!=''){
               const parameters = {
@@ -70,16 +81,19 @@ console.log("path"+path.join(__dirname, 'views'));
                 else
                 console.log(JSON.stringify(response, null, 2));
             //res.render(path.join(__dirname, 'views')+'/dashboard',{sentiment :response.sentiment});
-            res.render(path.join(__dirname, 'views')+'/dashboard',{response :response});
+            res.render(path.join(__dirname, 'views')+'/dashboard',{response :response,uname:reqData.query.uname,pass:reqData.query.psw});
               });
 
             }else{
-              res.render(path.join(__dirname, 'views')+'/dashboard',{response :''});
+              res.render(path.join(__dirname, 'views')+'/dashboard',{response :'',uname:reqData.query.uname,pass:reqData.query.psw});
             }
         //if end   
   
           });
-          
+        }else
+        {
+          res.render(path.join(__dirname, 'views')+'/login',{response :''});
+        }
           });
 
 
