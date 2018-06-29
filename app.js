@@ -4,6 +4,7 @@ const numeral = require('numeral');
 var bodyParser = require('body-parser');
 var AssistantV1 = require('watson-developer-cloud/assistant/v1');
 var ToneAnalyzerV3 = require('watson-developer-cloud/tone-analyzer/v3');
+var DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
 var path    = require("path");
 var express = require("express");
 var app     = express();
@@ -32,14 +33,81 @@ console.log("path"+path.join(__dirname, 'views'));
         
          
         });
-/*
-        app.get('/login',function(req,res){
-          console.log('app.js');
-          //var reqData = url.parse(req.url,true,true);
-            res.render(path.join(__dirname, 'views')+'/login');
+
+        app.get('/faq',function(req,res){
+          console.log('faq first call');
+            res.render(path.join(__dirname, 'views')+'/faq',{ans:'',question:''});
           
            
-          }); */
+          });
+
+        app.get('/discovery',function(req,res){
+          
+          var reqData = url.parse(req.url,true,true);
+                  
+          console.log('inside discovery get'+reqData.query.question);
+
+          var discovery = new DiscoveryV1({
+            url: 'https://gateway.watsonplatform.net/discovery/api',
+            version: '2018-03-05',
+            username: 'c1a0107d-6d6b-4b54-b7d6-317633af75a5',
+            password: 'TiJ5GLOsKBEl',
+            
+          });
+          const queryParams = {
+            natural_language_query: reqData.query.question,
+            passages: true,
+            environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
+            collection_id:'7667a42c-2a77-47af-b000-10fad7edc0b5'
+          };
+         // Object.assign(queryParams, discoveryParams);
+          discovery.query(queryParams, (err, searchResponse) => {
+            discoveryResponse = 'Sorry, currently I do not have a response. Our Customer representative will get in touch with you shortly.';
+            if (err) {
+              console.error('Error searching for documents: ' + err);
+
+            } else if (searchResponse.passages.length > 0) {
+              console.log('searchResponse: ' + searchResponse);
+              const bestPassage = searchResponse.passages[0];
+              console.log('Passage score: ', bestPassage.passage_score);
+              console.log('Passage text: ', bestPassage.passage_text);
+  
+              // Trim the passage to try to get just the answer part of it.
+              const lines = bestPassage.passage_text.split('\n');
+              let bestLine;
+              let questionFound = false;
+              for (let i = 0, size = lines.length; i < size; i++) {
+                const line = lines[i].trim();
+                if (!line) {
+                  continue; // skip empty/blank lines
+                }
+                if (line.includes('?') || line.includes('<h1')) {
+                  // To get the answer we needed to know the Q/A format of the doc.
+                  // Skip questions which either have a '?' or are a header '<h1'...
+                  questionFound = true;
+                  continue;
+                }
+                bestLine = line; // Best so far, but can be tail of earlier answer.
+                if (questionFound && bestLine) {
+                  // We found the first non-blank answer after the end of a question. Use it.
+                  
+                  break;
+                }
+              }
+              discoveryResponse =
+                bestLine || 'Sorry I currently do not have an appropriate response for your query. Our customer care executive will call you in 24 hours.';
+                console.log('bestLine ', bestLine);
+                res.render(path.join(__dirname, 'views')+'/faq',{ans:bestLine});
+                
+            }
+  
+            
+          
+          });
+        
+           /// res.render(path.join(__dirname, 'views')+'/login');
+        
+          }); 
 
         app.get('/dashboard',function(req,res){
           var reqData = url.parse(req.url,true,true);
@@ -94,56 +162,7 @@ console.log("path"+path.join(__dirname, 'views'));
           });
 
 
-/*
-          app.post('/dashboard',function(req,res){
-            console.log('inside dashborad post'+req);
-            customerDB.getCustFeedback('Nikesh Chatur',function(err, policylist){
-              //console.log('policylist[0].feedback'+policylist[0].feedback);
-              const parameters = {
-                text: policylist[0].feedback,
-                features: {
-                  entities: {
-                    emotion: true,
-                    sentiment: true,
-                    limit: 2
-                  },
-                  keywords: {
-                    emotion: true,
-                    sentiment: true,
-                    limit: 2
-                  },
-                  sentiment: {
-                    targets: [
-                      'Page Insurance Agency'
-                    ]
-                  }
-                }
-              };
-    
-              const NaturalLanguageUnderstandingV1 = require('watson-developer-cloud/natural-language-understanding/v1.js');
-    const nlu = new NaturalLanguageUnderstandingV1({
-      url: "https://gateway.watsonplatform.net/natural-language-understanding/api",
-      username: "f01bc3e2-1e4b-4df7-be75-001bd1eb0797",
-      password: "dLQQILAQhs7O",
-      version_date: '2018-03-16'
-    });
-    
-    nlu.analyze(parameters, function(err, response) {
-      if (err)
-        console.log('error:', err);
-      else
-      
-  //res.render(path.join(__dirname, 'views')+'/dashboard',{sentiment :response.sentiment});
-  res.render(path.join(__dirname, 'views')+'/dashboard',{response :response});
-    });
-    
-            });
-            
-           
-              
-            
-             
-            }); */
+
 
       // Endpoint to be call from the client side
 app.post('/api/message', function(req, res) {

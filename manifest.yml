@@ -9,4 +9,5 @@ services:
   - Insurance-NLU
   - InsuranceAdvisor-ChatBot
   - InsuranceToneAnalyzer
+  - InsuranceAdvisor-Discovery
   

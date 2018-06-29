@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>chat-bot</title>
+		<link rel="stylesheet" type="text/css" href="/css/mystyle.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		
+	
+		
+	</head>
+	<body>
+		<div class="container">
+			<h1 class="title">ABC Insurance Company FAQ Page</h1>
+			<!--img src="d-insurance.jpg" alt="Insurance" /-->
+			
+			
+           
+		</div>
+		<table >
+		
+	
+		
+		<form action="/discovery" onsubmit="">
+           
+		<tr>
+            <td><h1 class="title">Ask Question</h1></td>
+		<td> <input type="text" name="question" value="" > 
+            </td>
+		</tr>
+		
+		<tr>
+          
+		 
+                    <% if(ans!=null && ans!=""){%>
+                <td> <h1 class="title"><p>Your Answer is:</p></h1>    </td>
+                    <td>  <textarea ><%= ans %> </textarea>  
+                
+                </td> <%}%>
+		</tr>
+    
+		<tr>
+		<td><input type="submit" value="Submit" />
+		<input type="reset" value="Reset" /></td>
+		
+		</tr>
+		
+		</form>
+		
+		</table>
+		
+		
+		
+		
+		
+		
+		
+		
+		</div>
+	</body>
+</html>
+
+<script>
+     /*   var app = angular.module('myApp', []);
+        app.controller('myCtrl', function($scope, $http) {
+            alert("$scope.question"+$scope.question);
+            $http.get("/discovery",{params: { question: $scope.question}})
+            .then(function(response) {
+            alert("response.data"+response.data);
+                $scope.ans = response.data;
+            });
+        }); */
+        </script>
