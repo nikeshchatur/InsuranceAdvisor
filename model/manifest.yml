@@ -1,0 +1,5 @@
+---
+applications:
+ - name: abcbank-mm
+   host: abcbank-mm
+   memory: 128M
