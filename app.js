@@ -32,20 +32,18 @@ console.log("path"+path.join(__dirname, 'views'));
         
          
         });
-
+/*
         app.get('/login',function(req,res){
           console.log('app.js');
           //var reqData = url.parse(req.url,true,true);
             res.render(path.join(__dirname, 'views')+'/login');
           
            
-          });
+          }); */
 
         app.get('/dashboard',function(req,res){
           var reqData = url.parse(req.url,true,true);
-          if(reqData.query.uname=='admin' && reqData.query.psw=='admin'){
-
-          
+                  
           console.log('inside dashborad get'+reqData.query.uname);
           customerDB.getCustFeedback(reqData.query.fname,function(err, policylist){
             if(policylist!=null && policylist!=''){
@@ -92,14 +90,11 @@ console.log("path"+path.join(__dirname, 'views'));
         //if end   
   
           });
-        }else
-        {
-          res.render(path.join(__dirname, 'views')+'/login',{response :''});
-        }
+        
           });
 
 
-
+/*
           app.post('/dashboard',function(req,res){
             console.log('inside dashborad post'+req);
             customerDB.getCustFeedback('Nikesh Chatur',function(err, policylist){
@@ -148,7 +143,7 @@ console.log("path"+path.join(__dirname, 'views'));
               
             
              
-            });
+            }); */
 
       // Endpoint to be call from the client side
 app.post('/api/message', function(req, res) {
@@ -492,5 +487,6 @@ app.get('/api/db', function(req, res) {
 
 
       app.listen(process.env.VCAP_APP_PORT || 3000, function() {
+        context={};
         console.log('Server running on port: %d', 3000);
       });

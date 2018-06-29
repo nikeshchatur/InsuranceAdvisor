@@ -1,0 +1,75 @@
+body {
+	background-image: url(ai-insurance.jpg);
+	background-repeat: no-repeat, repeat;
+font : 12px Arial;	
+}
+
+h1{
+	color : white;
+	text-align : center;
+}
+a{
+	font : 14px Arial;
+	
+}
+a:link,a:visited{
+	background-color: 	#FF7F50;
+    color: white;
+    padding: 14px 25px;
+    text-align: center; 
+    text-decoration: none;
+    display: inline-block;
+	
+}
+a:hover, a:active {
+    background-color: red;
+}
+
+
+#menu{
+	border-spacing : 15px;
+	margin:auto;
+	
+}
+ img{
+	 width :15%;
+	 height : 15%;
+ }
+
+.wrapper {	
+	margin-top: 80px;
+  margin-bottom: 80px;
+}
+
+#login {
+  max-width: 380px;
+  padding: 15px 35px 45px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid rgba(0,0,0,0.1);  
+  position: relative;
+	  font-size: 12px;
+	  height: auto;
+	  padding: 10px;
+		border-spacing : 10px;
+
+		
+	}
+
+	input[type="text"] {
+	  margin-bottom: -1px;
+	  border-bottom-left-radius: 0;
+	  border-bottom-right-radius: 0;
+	}
+
+	input[type="password"] {
+	  margin-bottom: 20px;
+	  border-top-left-radius: 0;
+	  border-top-right-radius: 0;
+	}
+	
+#close{
+	text-align : right;
+}
+	
+	

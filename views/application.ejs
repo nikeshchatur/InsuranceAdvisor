@@ -2,28 +2,63 @@
 <html>
 	<head>
 		<title>chat-bot</title>
-		<link rel="stylesheet" type="text/css" href="/css/reset.css" />
-        <link rel="stylesheet" type="text/css" href="/css/index.css" />
+		<link rel="stylesheet" type="text/css" href="/css/mystyle.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="/js/scriptlib.js"></script>
+	
+		
 	</head>
 	<body>
 		<div class="container">
 			<h1 class="title">ABC Insurance Company</h1>
-			
+			<!--img src="d-insurance.jpg" alt="Insurance" /-->
+			<table id="menu">
+			<tr>
+			<td><a href="/index">Chat Bot</a></td>
+			<td><a href="#" id="dash">Dashboard </a></td>
+			</tr>
+			</table>
 			<div class="link">
-                <a href="/index">ChatBot </a>
                 
-				
-            </div>
-            <p></p>
-            <p></p>
-            <p></p>
+              </div>
             <div class="link">
-                   
-                    
-                    <a href="/login">Dashboard </a>
+     
                 </div>
 		</div>
+		<table id="login" hidden>
 		
+		<tr>
+		<td><div>LOGIN</div></td>
+		<td><div id="close"> <img src="/css/close.png" /> </div></td>
+		</tr>
+		
+		<form action="/dashboard" onsubmit="return validate(uname.value,pass.value);">
+		
+		<tr>
+		<td><input type="text" id="uname" placeholder="Username" /></td>
+		</tr>
+		
+		<tr>
+		<td><input type="password" id="pass" placeholder="Password" /></td>
+		</tr>
+		
+		<tr>
+		<td><input type="submit" value="Submit" />
+		<input type="reset" value="Reset" /></td>
+		
+		</tr>
+		
+		</form>
+		
+		</table>
+		
+		
+		
+		
+		
+		
+		
+		
+		</div>
 	</body>
 </html>
