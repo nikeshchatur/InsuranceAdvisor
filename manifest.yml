@@ -5,3 +5,8 @@ applications:
    instances: 1
    random-route: false
    timeout: 180
+services:
+  - Insurance-NLU
+  - InsuranceAdvisor-ChatBot
+  - InsuranceToneAnalyzer
+  
