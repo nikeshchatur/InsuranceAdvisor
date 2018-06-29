@@ -2,3 +2,6 @@
 applications:
  - name: InsuranceAdvisor
    memory: 128M
+   instances: 1
+   random-route: false
+   timeout: 180
