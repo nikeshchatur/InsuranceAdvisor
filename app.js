@@ -491,6 +491,6 @@ app.get('/api/db', function(req, res) {
   }); 
 
 
-      app.listen(3000, function() {
+      app.listen(process.env.VCAP_APP_PORT || 3000, function() {
         console.log('Server running on port: %d', 3000);
       });
