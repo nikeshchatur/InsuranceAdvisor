@@ -1,5 +1,4 @@
 ---
 applications:
  - name: InsuranceAdvisor
-   host: InsuranceAdvisor
    memory: 128M
