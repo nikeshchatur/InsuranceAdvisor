@@ -21,7 +21,8 @@ var array =[];
 console.log("path"+path.join(__dirname, 'views'));
 
     app.get('/',function(req,res){
-      console.log('app.js');
+     // console.log('app.js');
+      
         res.render(path.join(__dirname, 'views')+'/application');
       
        
@@ -29,6 +30,7 @@ console.log("path"+path.join(__dirname, 'views'));
 
       app.get('/index',function(req,res){
         console.log('app.js');
+        context={};
           res.render(path.join(__dirname, 'views')+'/index');
         
          
@@ -365,111 +367,7 @@ toneAnalyzer.tone(params, function(error, response)
    
   });
 /*
-  if(context.feedback!=null && (context.feedback=='yes' || context.feedback=='Yes')){
-    customerDB.createFeedback(payload.input.text,context.personname);
-    console.log('context.personname'+context.personname);
-    return res.json("Thanks for your feedback.Good Bye");
-   // res.render(path.join(__dirname, 'views')+'/application',{username :context.personname});
-    context={};
-
-  }else{
-  // Send the input to the assistant service
-  service.message(payload, function(err, data) {
-    if (err) {
-      return res.status(err.code || 500).json(err);
-    }
-   console.log('data.context.policycode'+data.context.policycode);
-    if(data.context.policycode!=null && data.context.termsandconditions==null && context.policycode==null ){
-       
-      context=data.context;
-      
-     customerDB.calcPremium(data.context,function(err, policylist){
-      context.emi=policylist.emi;
-      var str="PolicyCode: "+ policylist.policycode + "  EMI: "+ policylist.emi ;
-      //console.log("str"+str);
-      
-        data.output.text.push(str); 
-        str="   Terms and Conditions: "+policylist.termdesc;
-        
-        data.output.text.push(str);
-
-        str="Please type Accept/Reject?"
-        console.log("policylist"+policylist.policycode);
-        data.output.text.push(str);
-
-        return res.json(data.output.text);
-        
-       // updateChat(robot, policylist[r]);
-      } ); 
-      //console.log("str..policycode"+str.policycode);
-     // data.output.text.push(str);
-    
-    }else if (data.context.termsandconditions==null && context.policycode!=null){
-      context=data.context;
-      
-      customerDB.calcPremium(data.context,function(err, policylist){
-       context.emi=policylist.emi;
-       
-       var str="PolicyCode: "+ policylist.policycode + "  EMI: "+ policylist.emi ;
-       //console.log("str"+str);
-       
-         data.output.text.push(str); 
-         str="   Terms and Conditions: "+policylist.termdesc;
-         
-         data.output.text.push(str);
- 
-         str="Please  Accept/Reject?"
-         console.log("policylist"+policylist.policycode);
-         data.output.text.push(str);
- 
-         return res.json(data.output.text);
-         
-        // updateChat(robot, policylist[r]);
-       } );
-
-    }
-    
-    else {
-    
-    if(context.termsandconditions==null && data.context.termsandconditions!=null && 
-      ['Accept', 'accept', 'yes', 'ok','Y','y','Yes'].indexOf(data.context.termsandconditions) >= 0){
-        context=data.context;
-      customerDB.insertCustomerRec(context,function(err, policynum){
-   
-        var str="Please find your Insurance number";
-
-        data.output.text.push(str);
-
-         str="policynum: "+ policynum  ;
-        //console.log("str"+str);
-        
-          data.output.text.push(str); 
-          
-          str="Would you like to give us feedback (Yes/No) "  ;
-         
-         data.output.text.push(str); 
-          return res.json(data.output.text);
-          
-         // updateChat(robot, policylist[r]);
-        } ); 
-
-    }else{
-      if(data.context.feedback!=null && (data.context.feedback=='no' || data.context.feedback=='No') ){
-        context={};
-        
-        return res.json("GoodBye");
-      }else{
-        context=data.context;
-        return res.json(data.output.text);
-      }
-      
-    }
-    
-    }
-   
-   
-  });
-  }
+  
  */
 });
     
