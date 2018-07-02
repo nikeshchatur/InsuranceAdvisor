@@ -5,7 +5,24 @@
 		<link rel="stylesheet" type="text/css" href="/css/mystyle.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 		
-	
+		<style>
+				textarea
+				{
+					resize: none;
+					overflow: hidden;
+				}
+			</style>
+			<script>
+				var textarea = null;
+				window.addEventListener("load", function() {
+					textarea = window.document.querySelector("textarea");
+					textarea.addEventListener("keypress", function() {
+						if(textarea.scrollTop != 0){
+							textarea.style.height = textarea.scrollHeight + "px";
+						}
+					}, false);
+				}, false);
+			</script>
 		
 	</head>
 	<body>
@@ -40,7 +57,7 @@
     
 		<tr>
 		<td><input type="submit" value="Submit" />
-		<input type="reset" value="Reset" /></td>
+		</td>
 		
 		</tr>
 		
