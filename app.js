@@ -56,12 +56,33 @@ console.log("path"+path.join(__dirname, 'views'));
             password: 'TiJ5GLOsKBEl',
             
           });
-          const queryParams = {
+         const queryParams = {
             natural_language_query: reqData.query.question,
             passages: true,
+            passages_characters:1000,
             environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
-            collection_id:'7667a42c-2a77-47af-b000-10fad7edc0b5'
-          };
+            collection_id:'7b308933-9042-4f2b-9feb-dc7574bd9320'
+          };  
+   /*       const queryParams = {
+            query: reqData.query.question,
+            environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
+            collection_id:'7b308933-9042-4f2b-9feb-dc7574bd9320'
+            };
+ /*
+const params = Object.assign({}, reqData.query.question, {
+  environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
+            collection_id:'7b308933-9042-4f2b-9feb-dc7574bd9320',
+});*/
+/*
+discovery.query(queryParams, (error, response) => {
+  if (error) {
+    next(error);
+  } else {
+    console.log('response-->: ', response);
+   // res.json(response);
+  }
+});*/
+
          // Object.assign(queryParams, discoveryParams);
           discovery.query(queryParams, (err, searchResponse) => {
             discoveryResponse = 'Sorry, currently I do not have a response. Our Customer representative will get in touch with you shortly.';
@@ -73,25 +94,32 @@ console.log("path"+path.join(__dirname, 'views'));
               const bestPassage = searchResponse.passages[0];
               console.log('Passage score: ', bestPassage.passage_score);
               console.log('Passage text: ', bestPassage.passage_text);
-  
+            
               // Trim the passage to try to get just the answer part of it.
               const lines = bestPassage.passage_text.split('\n');
+              console.log('Passage text end: '+lines);
               let bestLine;
               let questionFound = false;
               for (let i = 0, size = lines.length; i < size; i++) {
                 const line = lines[i].trim();
                 if (!line) {
+                  console.log('inside continue');
                   continue; // skip empty/blank lines
                 }
-                if (line.includes('?') || line.includes('<h1')) {
+                if (line.includes('?') || line.includes('<h1') ) {
                   // To get the answer we needed to know the Q/A format of the doc.
                   // Skip questions which either have a '?' or are a header '<h1'...
+                  console.log('skipped ?'+line);
+                  if(line.includes(reqData.query.question))
                   questionFound = true;
+
                   continue;
                 }
                 bestLine = line; // Best so far, but can be tail of earlier answer.
+                console.log('bestLine--->'+bestLine);
                 if (questionFound && bestLine) {
                   // We found the first non-blank answer after the end of a question. Use it.
+                  console.log('break');
                   
                   break;
                 }
@@ -99,13 +127,27 @@ console.log("path"+path.join(__dirname, 'views'));
               discoveryResponse =
                 bestLine || 'Sorry I currently do not have an appropriate response for your query. Our customer care executive will call you in 24 hours.';
                 console.log('bestLine ', bestLine);
+                if(bestLine.includes('<p dir="ltr">s')){
+                bestLine=bestLine.replace('<p dir="ltr">s', '');
+                console.log('bestLine.replace(p dir="ltr', bestLine);
+            }
+                 if(bestLine.includes('<p dir="ltr">')){
+                  bestLine=bestLine.replace('<p dir="ltr">', '');
+                  console.log('bestLine.replace(p dir="ltr', bestLine);
+                }
+                 if(bestLine.includes('</p>')){
+                  bestLine=bestLine.replace('</p>', '');
+                  console.log('bestLine.replace(/p', bestLine);
+                }
+
+               
                 res.render(path.join(__dirname, 'views')+'/faq',{ans:bestLine});
                 
-            }
+            } 
   
             
           
-          });
+          }); 
         
            /// res.render(path.join(__dirname, 'views')+'/login');
         
