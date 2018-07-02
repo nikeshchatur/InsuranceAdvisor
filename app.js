@@ -63,25 +63,7 @@ console.log("path"+path.join(__dirname, 'views'));
             environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
             collection_id:'7b308933-9042-4f2b-9feb-dc7574bd9320'
           };  
-   /*       const queryParams = {
-            query: reqData.query.question,
-            environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
-            collection_id:'7b308933-9042-4f2b-9feb-dc7574bd9320'
-            };
- /*
-const params = Object.assign({}, reqData.query.question, {
-  environment_id:'63c001f4-d858-4107-84a3-c4bb8a949590',
-            collection_id:'7b308933-9042-4f2b-9feb-dc7574bd9320',
-});*/
-/*
-discovery.query(queryParams, (error, response) => {
-  if (error) {
-    next(error);
-  } else {
-    console.log('response-->: ', response);
-   // res.json(response);
-  }
-});*/
+  
 
          // Object.assign(queryParams, discoveryParams);
           discovery.query(queryParams, (err, searchResponse) => {
@@ -124,9 +106,14 @@ discovery.query(queryParams, (error, response) => {
                   break;
                 }
               }
+              
               discoveryResponse =
-                bestLine || 'Sorry I currently do not have an appropriate response for your query. Our customer care executive will call you in 24 hours.';
+                 'Sorry I currently do not have an appropriate response for your query. Our customer care executive will call you in 24 hours.';
                 console.log('bestLine ', bestLine);
+                if (!questionFound) {
+                  console.log('Not found----------------->');
+                  bestLine=discoveryResponse;
+                }
                 if(bestLine.includes('<p dir="ltr">s')){
                 bestLine=bestLine.replace('<p dir="ltr">s', '');
                 console.log('bestLine.replace(p dir="ltr', bestLine);
@@ -289,8 +276,11 @@ toneAnalyzer.tone(params, function(error, response)
     
     }
    console.log('toneAngerScore = ', toneAngerScore);
-   if(toneAngerScore =='anger')
+   if(toneAngerScore =='anger'){
+    payload.context={};
     payload.context['tone_anger_score'] = toneAngerScore;
+
+   }
   //  console.log('payload.context ', payload.context);
     // Original code added here
     if(context.feedback!=null && (context.feedback=='yes' || context.feedback=='Yes')){
